@@ -1,0 +1,103 @@
+#!/bin/bash
+###############################################################################
+# Autor: Renato Basante Borbolla                                              #
+# Criação: 20/04/2018                                                         #
+# Função: Script para instalação do Docker-Engine                             #
+###############################################################################
+Black='\033[0;30m'
+Dark_Gray='\033[1;30m'
+Red='\033[0;31m'
+Light_Red='\033[1;31m'
+Green='\033[0;32m'
+Light_Green='\033[1;32m'
+Orange='\033[0;33m'
+Yellow='\033[1;33m'
+Blue='\033[0;34m'
+Light_Blue='\033[1;34m'
+Purple='\033[0;35m'
+Light_Purple='\033[1;35m'
+Cyan='\033[0;36m'
+Light_Cyan='\033[1;36m'
+Light_Gray='\033[0;37m'
+White='\033[1;37m'
+NC='\033[0m'
+if [ "$(id -u)" != "0" ]; then
+        echo -e "${White}"
+        echo -e "${NC}${Red}VOCE DEVE EXECUTAR ESSE SCRIPT COMO ROOT!!${NC}${White}"
+        echo -e "${White}${NC}"
+        else
+echo -e ${NC}""
+echo -e ""
+echo -e ${NC}${Light_Blue}" "
+echo -e "  mmmm                 #                             *          "
+echo -e "  #   mm  mmm    mmm   #   m   mmm    m mm         mmm     mmm  "
+echo -e "  #    # #   #  #      # m    #*  #   #*  *          #    #   # "
+echo -e "  #    # #   #  #      # #    #****   #              #    #   # "
+echo -e "  #mmm*   #m#    #mm   #   m   #mm    #       #    mm#mm   #m#  "
+echo -e ""${NC}
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e ${NC}${Yellow}" --> Inicializando..."
+echo -e ""
+sleep 5
+echo -e ${NC}${White}" --> Atualizando o repositorio  -  ["${NC}${Green}"Running"${NC}${White}"]"
+echo -e ""
+rm -f /etc/apt/sources.list
+echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
+export DEBIAN_FRONTEND="noninteractive"
+apt-get update
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Removendo versoes antigas do Docker  -  ["${NC}${Green}"Running"${NC}${White}"]"
+echo -e ""
+apt-get purge docker docker-engine docker.io* lxc-docker* -y
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Instalando as dependencias  -  ["${NC}${Green}"Running"${NC}${White}"]"
+echo -e ""
+apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common -y
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Adicionando o repositorio do Docker e chaves GPG  -  ["${NC}${Green}"Running"${NC}${White}"]"
+echo -e ""
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+echo "deb https://download.docker.com/linux/debian stretch stable" >> /etc/apt/sources.list 
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Atualizando o Repositorio Novamente -  ["${NC}${Green}"Running"${NC}${White}"]"
+apt-get update
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Instalando o Docker-Engine -  ["${NC}${Green}"Running"${NC}${White}"]"
+apt-get install docker-ce -y
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Adicionando Usuario Docker -  ["${NC}${Green}"Running"${NC}${White}"]"
+groupadd docker
+usermod -aG docker $USER
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e " --> Configurando o Docker para Inicializar Junto ao Sistema -  ["${NC}${Green}"Running"${NC}${White}"]"
+systemctl enable docker
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e ""${NC}${Yellow}
+echo -e "###############################################################################"
+echo -e "#                                                                             #"
+echo -e "#                     DOCKER INSTALADO COM SUCESSO!                           #"
+echo -e "#                                                                             #"
+echo -e "###############################################################################"${NC}
+echo -e ""
+echo -e ""
+echo -e ""
+sleep 1
+fi
